@@ -1,0 +1,5 @@
+apiVersion: bluedata.k8s.bluedata.com/v1alpha1
+kind: BlueDataCluster
+metadata:
+  name: bluedatacluster-example
+spec:
