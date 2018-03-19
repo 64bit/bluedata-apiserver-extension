@@ -5,11 +5,11 @@ package bluedatacluster
 
 import (
     "log"
-
     "github.com/kubernetes-sigs/kubebuilder/pkg/builders"
-
+    "time"
     "bluedata-apiserver-extension/pkg/apis/bluedata/v1alpha1"
     "bluedata-apiserver-extension/pkg/controller/sharedinformers"
+    "k8s.io/client-go/tools/cache"
     listers "bluedata-apiserver-extension/pkg/client/listers_generated/bluedata/v1alpha1"
 )
 
@@ -20,6 +20,7 @@ import (
 func (c *BlueDataClusterControllerImpl) Reconcile(u *v1alpha1.BlueDataCluster) error {
     // INSERT YOUR CODE HERE - implement controller logic to reconcile observed and desired state of the object
     log.Printf("Running reconcile BlueDataCluster for %s\n", u.Name)
+    log.Printf("BlueDataCluster %+v\n", u)
     return nil
 }
 
@@ -44,10 +45,27 @@ func (c *BlueDataClusterControllerImpl) Init(arguments sharedinformers.Controlle
     // "namespace/name"" to reconcile in response to the updated Foo
     // Note: To watch Kubernetes resources, you must also update the StartAdditionalInformers function in
     // pkg/controllers/sharedinformers/informers.go
-    // 
+    //
     // arguments.Watch("BlueDataClusterFoo",
     //     arguments.GetSharedInformers().Factory.Bar().V1beta1().Bars().Informer(),
     //     c.FooToBlueDataCluster)
+
+    arguments.GetSharedInformers().Factory.Bluedata().V1alpha1().BlueDataClusters().Informer().
+  		AddEventHandler(cache.ResourceEventHandlerFuncs{
+             AddFunc: func(obj interface{}) {
+                    time.Sleep(time.Duration(time.Second) * 10)
+                    log.Printf("\n\nAdd: %s \n", obj)
+             },
+             DeleteFunc: func(obj interface{}) {
+                    time.Sleep(time.Duration(time.Second) * 10)
+                    log.Printf("\n\nDelete: %s \n", obj)
+             },
+             UpdateFunc: func(oldObj, newObj interface{}) {
+                    time.Sleep(time.Duration(time.Second) * 10)
+                    log.Printf("\n\nUpdate old: %s \n      New: %s\n", oldObj, newObj)
+             },
+      })
+
 }
 
 func (c *BlueDataClusterControllerImpl) Get(namespace, name string) (*v1alpha1.BlueDataCluster, error) {

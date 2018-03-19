@@ -11,9 +11,15 @@ import (
 // Created by "kubebuilder create resource" for you to implement the BlueDataCluster resource schema definition
 // as a go struct
 
+// type BlueDataLabel struct {
+//    Name string        `json:"name,omitempty"`
+//    Description string `json:"description,omitemtpy"`
+// }
+
 // BlueDataClusterSpec defines the desired state of BlueDataCluster
 type BlueDataClusterSpec struct {
     // INSERT YOUR CODE HERE - define desired state schema
+    //Label BlueDataLabel `json:"label,omitempty"`
 }
 
 // BlueDataClusterStatus defines the observed state of BlueDataCluster
