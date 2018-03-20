@@ -6,7 +6,6 @@ package bluedatacluster
 import (
     "log"
     "github.com/kubernetes-sigs/kubebuilder/pkg/builders"
-    "time"
     "bluedata-apiserver-extension/pkg/apis/bluedata/v1alpha1"
     "bluedata-apiserver-extension/pkg/controller/sharedinformers"
     "k8s.io/client-go/tools/cache"
@@ -19,8 +18,7 @@ import (
 // Reconcile handles enqueued messages
 func (c *BlueDataClusterControllerImpl) Reconcile(u *v1alpha1.BlueDataCluster) error {
     // INSERT YOUR CODE HERE - implement controller logic to reconcile observed and desired state of the object
-    log.Printf("Running reconcile BlueDataCluster for %s\n", u.Name)
-    log.Printf("BlueDataCluster %+v\n", u)
+    log.Printf("Running RECONCILE BlueDataCluster for %s\n", u.Name)
     return nil
 }
 
@@ -53,16 +51,17 @@ func (c *BlueDataClusterControllerImpl) Init(arguments sharedinformers.Controlle
     arguments.GetSharedInformers().Factory.Bluedata().V1alpha1().BlueDataClusters().Informer().
   		AddEventHandler(cache.ResourceEventHandlerFuncs{
              AddFunc: func(obj interface{}) {
-                    time.Sleep(time.Duration(time.Second) * 10)
-                    log.Printf("\n\nAdd: %s \n", obj)
+                    bluedatacluster, _ := obj.(*v1alpha1.BlueDataCluster)
+                    log.Printf("ADD BlueDataCluster: %s", bluedatacluster.Name)
+                    erc := EpicRestClient{}
+                    erc.CreateCluster(bluedatacluster)
+
              },
              DeleteFunc: func(obj interface{}) {
-                    time.Sleep(time.Duration(time.Second) * 10)
-                    log.Printf("\n\nDelete: %s \n", obj)
+                    log.Printf("\n\nDELETE:\n\n %s \n", obj)
              },
              UpdateFunc: func(oldObj, newObj interface{}) {
-                    time.Sleep(time.Duration(time.Second) * 10)
-                    log.Printf("\n\nUpdate old: %s \n      New: %s\n", oldObj, newObj)
+                    log.Printf("\n\nUPDATE \n\nold: %+v \n\n      New: %+v\n", oldObj, newObj)
              },
       })
 

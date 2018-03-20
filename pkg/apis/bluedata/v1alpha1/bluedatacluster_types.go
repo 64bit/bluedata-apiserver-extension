@@ -11,15 +11,29 @@ import (
 // Created by "kubebuilder create resource" for you to implement the BlueDataCluster resource schema definition
 // as a go struct
 
-// type BlueDataLabel struct {
-//    Name string        `json:"name,omitempty"`
-//    Description string `json:"description,omitemtpy"`
-// }
+type BlueDataLabel struct {
+   Name string        `json:"name,omitempty"`
+   Description string `json:"description,omitemtpy"`
+}
+
+type BlueDataNodegroupRoleConfig struct {
+    RoleId    string `json:"role_id,omitempty"`
+    NodeCount int    `json:"node_count,omitempty"`
+    Flavor    string `json:"flavor,omitempty"`
+}
+
+type BlueDataNodegroup struct {
+    CatalogEntryDistroId  string                        `json:"catalog_entry_distro_id,omitempty"`
+    RoleConfigs           []BlueDataNodegroupRoleConfig `json:"role_configs,omitempty"`
+}
 
 // BlueDataClusterSpec defines the desired state of BlueDataCluster
 type BlueDataClusterSpec struct {
     // INSERT YOUR CODE HERE - define desired state schema
-    //Label BlueDataLabel `json:"label,omitempty"`
+    Label           BlueDataLabel     `json:"label,omitempty"`
+    //Debug           bool              `json:"debug,omitempty"`
+    Nodegroup       BlueDataNodegroup `json:"nodegroup,omitempty"`
+    TwoPhaseDelete  bool              `json:"two_phase_delete,omitempty"`
 }
 
 // BlueDataClusterStatus defines the observed state of BlueDataCluster
@@ -37,6 +51,6 @@ type BlueDataCluster struct {
     metav1.TypeMeta   `json:",inline"`
     metav1.ObjectMeta `json:"metadata,omitempty"`
 
-    Spec   BlueDataClusterSpec   `json:"spec,omitempty"`
+    Spec   BlueDataClusterSpec  `json:"spec,omitempty"`
     Status BlueDataClusterStatus `json:"status,omitempty"`
 }

@@ -33,8 +33,20 @@ var (
 							Type: "object",
 						},
 						"spec": v1beta1.JSONSchemaProps{
-							Type:       "object",
-							Properties: map[string]v1beta1.JSONSchemaProps{},
+							Type: "object",
+							Properties: map[string]v1beta1.JSONSchemaProps{
+								"label": v1beta1.JSONSchemaProps{
+									Type: "object",
+									Properties: map[string]v1beta1.JSONSchemaProps{
+										"description": v1beta1.JSONSchemaProps{Type: "string"},
+										"name":        v1beta1.JSONSchemaProps{Type: "string"},
+									},
+								},
+								"nodegroup": v1beta1.JSONSchemaProps{
+									Type:       "object",
+									Properties: map[string]v1beta1.JSONSchemaProps{},
+								},
+							},
 						},
 						"status": v1beta1.JSONSchemaProps{
 							Type:       "object",
@@ -60,7 +72,23 @@ var (
 	               "type": "object"
 	           },
 	           "spec": {
-	               "type": "object"
+	               "type": "object",
+	               "properties": {
+	                   "label": {
+	                       "type": "object",
+	                       "properties": {
+	                           "description": {
+	                               "type": "string"
+	                           },
+	                           "name": {
+	                               "type": "string"
+	                           }
+	                       }
+	                   },
+	                   "nodegroup": {
+	                       "type": "object"
+	                   }
+	               }
 	           },
 	           "status": {
 	               "type": "object"

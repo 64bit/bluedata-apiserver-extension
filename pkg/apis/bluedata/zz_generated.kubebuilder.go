@@ -60,9 +60,28 @@ type BlueDataCluster struct {
 }
 
 type BlueDataClusterSpec struct {
+	Label          BlueDataLabel
+	Nodegroup      BlueDataNodegroup
+	TwoPhaseDelete bool
 }
 
 type BlueDataClusterStatus struct {
+}
+
+type BlueDataNodegroup struct {
+	CatalogEntryDistroId string
+	RoleConfigs          []BlueDataNodegroupRoleConfig
+}
+
+type BlueDataLabel struct {
+	Name        string
+	Description string
+}
+
+type BlueDataNodegroupRoleConfig struct {
+	RoleId    string
+	NodeCount int
+	Flavor    string
 }
 
 //

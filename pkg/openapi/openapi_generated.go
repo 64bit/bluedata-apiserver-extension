@@ -117,10 +117,30 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 			Schema: spec.Schema{
 				SchemaProps: spec.SchemaProps{
 					Description: "BlueDataClusterSpec defines the desired state of BlueDataCluster",
-					Properties:  map[string]spec.Schema{},
+					Properties: map[string]spec.Schema{
+						"label": {
+							SchemaProps: spec.SchemaProps{
+								Description: "INSERT YOUR CODE HERE - define desired state schema",
+								Ref:         ref("bluedata-apiserver-extension/pkg/apis/bluedata/v1alpha1.BlueDataLabel"),
+							},
+						},
+						"nodegroup": {
+							SchemaProps: spec.SchemaProps{
+								Description: "Debug           bool              `json:\"debug,omitempty\"`",
+								Ref:         ref("bluedata-apiserver-extension/pkg/apis/bluedata/v1alpha1.BlueDataNodegroup"),
+							},
+						},
+						"two_phase_delete": {
+							SchemaProps: spec.SchemaProps{
+								Type:   []string{"boolean"},
+								Format: "",
+							},
+						},
+					},
 				},
 			},
-			Dependencies: []string{},
+			Dependencies: []string{
+				"bluedata-apiserver-extension/pkg/apis/bluedata/v1alpha1.BlueDataLabel", "bluedata-apiserver-extension/pkg/apis/bluedata/v1alpha1.BlueDataNodegroup"},
 		},
 		"bluedata-apiserver-extension/pkg/apis/bluedata/v1alpha1.BlueDataClusterStatus": {
 			Schema: spec.Schema{
@@ -162,6 +182,83 @@ func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenA
 			},
 			Dependencies: []string{
 				"github.com/kubernetes-sigs/kubebuilder/pkg/builders.DefaultStorageStrategy"},
+		},
+		"bluedata-apiserver-extension/pkg/apis/bluedata/v1alpha1.BlueDataLabel": {
+			Schema: spec.Schema{
+				SchemaProps: spec.SchemaProps{
+					Properties: map[string]spec.Schema{
+						"name": {
+							SchemaProps: spec.SchemaProps{
+								Type:   []string{"string"},
+								Format: "",
+							},
+						},
+						"description": {
+							SchemaProps: spec.SchemaProps{
+								Type:   []string{"string"},
+								Format: "",
+							},
+						},
+					},
+					Required: []string{"description"},
+				},
+			},
+			Dependencies: []string{},
+		},
+		"bluedata-apiserver-extension/pkg/apis/bluedata/v1alpha1.BlueDataNodegroup": {
+			Schema: spec.Schema{
+				SchemaProps: spec.SchemaProps{
+					Properties: map[string]spec.Schema{
+						"catalog_entry_distro_id": {
+							SchemaProps: spec.SchemaProps{
+								Type:   []string{"string"},
+								Format: "",
+							},
+						},
+						"role_configs": {
+							SchemaProps: spec.SchemaProps{
+								Type: []string{"array"},
+								Items: &spec.SchemaOrArray{
+									Schema: &spec.Schema{
+										SchemaProps: spec.SchemaProps{
+											Ref: ref("bluedata-apiserver-extension/pkg/apis/bluedata/v1alpha1.BlueDataNodegroupRoleConfig"),
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			Dependencies: []string{
+				"bluedata-apiserver-extension/pkg/apis/bluedata/v1alpha1.BlueDataNodegroupRoleConfig"},
+		},
+		"bluedata-apiserver-extension/pkg/apis/bluedata/v1alpha1.BlueDataNodegroupRoleConfig": {
+			Schema: spec.Schema{
+				SchemaProps: spec.SchemaProps{
+					Properties: map[string]spec.Schema{
+						"role_id": {
+							SchemaProps: spec.SchemaProps{
+								Type:   []string{"string"},
+								Format: "",
+							},
+						},
+						"node_count": {
+							SchemaProps: spec.SchemaProps{
+								Type:   []string{"integer"},
+								Format: "int32",
+							},
+						},
+						"flavor": {
+							SchemaProps: spec.SchemaProps{
+								Type:   []string{"string"},
+								Format: "",
+							},
+						},
+					},
+				},
+			},
+			Dependencies: []string{},
 		},
 		"k8s.io/api/admissionregistration/v1alpha1.Initializer": {
 			Schema: spec.Schema{

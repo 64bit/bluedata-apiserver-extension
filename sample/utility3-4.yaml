@@ -8,9 +8,9 @@ spec:
   isolated: false
   label:
     description: description of the description
-    name: utilit2
+    name: utility3 
   nodegroup:
-    catalog_entry_distro_id: bluedata/rhel7
+    catalog_entry_distro_id: bluedata/centos7
     config_choice_selections: []
     constraints: []
     role_configs:
@@ -32,9 +32,9 @@ spec:
   isolated: false
   label:
     description: description of the description
-    name: utilit2
+    name: utility4
   nodegroup:
-    catalog_entry_distro_id: bluedata/rhel7
+    catalog_entry_distro_id: bluedata/centos7
     config_choice_selections: []
     constraints: []
     role_configs:
