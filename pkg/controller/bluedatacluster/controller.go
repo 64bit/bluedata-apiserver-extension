@@ -61,7 +61,7 @@ func (c *BlueDataClusterControllerImpl) Init(arguments sharedinformers.Controlle
                     log.Printf("\n\nDELETE:\n\n %s \n", obj)
              },
              UpdateFunc: func(oldObj, newObj interface{}) {
-                    log.Printf("\n\nUPDATE \n\nold: %+v \n\n      New: %+v\n", oldObj, newObj)
+                    log.Printf("\n\nUPDATE \n\n     Old: %+v \n\n      New: %+v\n", oldObj, newObj)
              },
       })
 
