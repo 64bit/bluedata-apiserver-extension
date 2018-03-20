@@ -1,14 +1,14 @@
 apiVersion: bluedata.k8s.bluedata.com/v1alpha1
 kind: BlueDataCluster
 metadata:
-  name: utility3
+  name: centos7-3 
 spec:
   debug: false
   dependent_nodegroups: []
   isolated: false
   label:
     description: description of the description
-    name: utility3 
+    name: centos7-3 
   nodegroup:
     catalog_entry_distro_id: bluedata/centos7
     config_choice_selections: []
