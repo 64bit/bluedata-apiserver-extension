@@ -48,17 +48,17 @@ func (c *BlueDataClusterControllerImpl) Init(arguments sharedinformers.Controlle
     //     arguments.GetSharedInformers().Factory.Bar().V1beta1().Bars().Informer(),
     //     c.FooToBlueDataCluster)
 
+    erc := EpicRestClient{}
     arguments.GetSharedInformers().Factory.Bluedata().V1alpha1().BlueDataClusters().Informer().
   		AddEventHandler(cache.ResourceEventHandlerFuncs{
              AddFunc: func(obj interface{}) {
                     bluedatacluster, _ := obj.(*v1alpha1.BlueDataCluster)
                     log.Printf("ADD BlueDataCluster: %s", bluedatacluster.Name)
-                    erc := EpicRestClient{}
                     erc.CreateCluster(bluedatacluster)
-
              },
              DeleteFunc: func(obj interface{}) {
-                    log.Printf("\n\nDELETE:\n\n %s \n", obj)
+                    bluedatacluster, _ := obj.(*v1alpha1.BlueDataCluster)
+                    log.Printf("DELETE BlueDataCluster: %s ", bluedatacluster.Name)
              },
              UpdateFunc: func(oldObj, newObj interface{}) {
                     log.Printf("\n\nUPDATE \n\n     Old: %+v \n\n      New: %+v\n", oldObj, newObj)
