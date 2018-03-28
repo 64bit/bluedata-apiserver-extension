@@ -15,7 +15,7 @@ type EpicRestClient struct {
 
 var Session string
 var once sync.Once
-var BaseUrl string = "http://10.36.0.22:30422"
+var BaseUrl string = "http://controller-svc.bluedata-system.svc.cluster.local:8080"
 var client http.Client
 
 func (c *EpicRestClient) Once() {
