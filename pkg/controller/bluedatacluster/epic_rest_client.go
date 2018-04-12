@@ -39,7 +39,9 @@ func (c *EpicRestClient) CreateCluster(cluster *v1alpha1.BlueDataCluster) {
                             BaseUrl + "/api/v2/cluster",
                             bytes.NewBuffer(jsonValue))
   request.Header.Add("X-BDS-SESSION", Session)
+  request.Header.Add("X-NAMESPACE", cluster.ObjectMeta.Namespace)
   request.Header.Add("Content-Type", "application/json")
+  log.Println("Namespace: ", cluster.ObjectMeta.Namespace)
   response, err := client.Do(request)
   log.Println("REST CreateCluster %s Response: %s Err: %s",
               cluster.Name, response, err)
