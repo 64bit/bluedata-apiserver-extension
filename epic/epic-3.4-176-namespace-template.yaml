@@ -1,0 +1,183 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{{{TENANT}}}} 
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{{{TENANT}}}} 
+  namespace: {{{{TENANT}}}}
+automountServiceAccountToken: false
+---
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: {{{{TENANT}}}}
+  name: {{{{TENANT}}}}
+rules:
+- apiGroups: ["apps", "extensions", ""]
+  resources: ["statefulsets", "pods", "pods/cp", "pods/exec", "pods/log", "resourcequotas", "secrets", "services", "events", "persistentvolumeclaims"]
+  verbs: ["*"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{{{TENANT}}}}
+  namespace: {{{{TENANT}}}}
+subjects:
+- kind: ServiceAccount
+  name: {{{{TENANT}}}}
+roleRef:
+  kind: Role
+  name: {{{{TENANT}}}}
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota
+  namespace: {{{{TENANT}}}}
+spec:
+  hard:
+    limits.cpu: "{{{{CPU_QUOTA}}}}"
+    limits.memory : "{{{{MEM_QUOTA}}}}"
+    glusterfs-storage.storageclass.storage.k8s.io/requests.storage: "{{{{STORAGE_QUOTA}}}}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: controller-svc
+  namespace: {{{{TENANT}}}}
+  labels:
+    app: controller
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    name: http
+    protocol: TCP
+  - port: 443
+    name: https
+    protocol: TCP
+  - port: 4369
+    name: epmd
+    protocol: TCP
+  - port: 8080
+    name: mgmt-restapi
+    protocol: TCP
+  - port: 9000
+    name: mgmt-rpc
+    protocol: TCP
+  selector:
+    app: controller
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: controller
+  namespace: {{{{TENANT}}}} 
+  labels:
+    app: controller
+spec:
+  clusterIP: None
+  ports:
+  - port: 4369
+    name: epmd
+    protocol: TCP
+  selector:
+    app: controller
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vnode
+  namespace: {{{{TENANT}}}} 
+  labels:
+    app: controller
+    sn: vnode
+spec:
+  clusterIP: None
+  ports:
+  - port: 4369
+  selector:
+    sn: vnode
+---
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  name: controller
+  namespace: {{{{TENANT}}}}
+spec:
+  serviceName: controller
+  replicas: 1
+  selector:
+    matchLabels:
+      app: controller
+  template:
+    metadata:
+      labels:
+        app: controller
+    spec:
+      terminationGracePeriodSeconds: 10
+      serviceAccount: {{{{TENANT}}}} 
+      automountServiceAccountToken: true
+      containers:
+      - name: controller
+        stdin: true
+        tty: true
+        resources:
+          limits:
+            cpu: "1"
+            memory: 5Gi
+          requests:
+            cpu: "1"
+            memory: 5Gi
+        volumeMounts:
+        - name: controller
+          mountPath: /opt/bluedata/db
+          subPath: "db"
+        - name: controller
+          mountPath: /opt/bluedata/catalog/bundles
+          subPath: "catalog"
+        - name: controller
+          mountPath: /opt/bluedata/catalog/logos
+          subPath: "logos"
+        - name: controller
+          mountPath: /srv/bluedata
+          subPath: "www"
+        - name: controller
+          mountPath: /var/log/bluedata
+          subPath: "logs"
+        image: bluedata/bd-epic-k8s:3.4-176
+        imagePullPolicy: Always
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/bash", "-c", "/opt/bluedata/bundles/bluedata-epic-entk8s-m7-minimal-debug-3.4-176/startscript.sh --k8s-install --storage-class-name glusterfs-storage "]
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        - containerPort: 443
+          name: https
+          protocol: TCP
+        - containerPort: 4369
+          name: epmd
+          protocol: TCP
+        - containerPort: 8080
+          name: mgmt-restapi
+          protocol: TCP
+        - containerPort: 9000
+          name: mgmt-rpc
+          protocol: TCP
+  volumeClaimTemplates:
+  - metadata:
+      name: controller
+      annotations:
+        volume.beta.kubernetes.io/storage-class: glusterfs-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 40Gi

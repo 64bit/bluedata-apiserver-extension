@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: bluedata-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: bluedata-system
+  name: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: bluedata-system-cluster-admin-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: bluedata-system
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: apiserver-install-job
+  namespace: bluedata-system
+spec:
+  template:
+    spec:
+      containers:
+      - name: installer
+        image: "gigapotential/installer"
+        command: [ "./installer",
+                   "--controller-image=gigapotential/controller",
+                   "--docs-image=gigapotential/docs",
+                   "--name=bluedata"]
+      restartPolicy: OnFailure
