@@ -6,8 +6,8 @@
 # Storage
 # Namespace
 
-CPU="1"
-MEMORY="1Gi"
+CPU="10"
+MEMORY="10Gi"
 STORAGE="400Gi"
 NAMESPACE="default"
 TEMPLATE=epic-3.4-176-namespace-template.yaml
