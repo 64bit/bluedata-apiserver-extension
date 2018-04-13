@@ -7,23 +7,23 @@
 # Namespace
 
 CPU="10"
-MEMORY="10Gi"
-STORAGE="400Gi"
+MEMORY=$((10*1024*1024*1024))
+STORAGE=$((400*1024*1024*1024))
 NAMESPACE="default"
-TEMPLATE=epic-3.4-176-namespace-template.yaml
+TEMPLATE=epic-3.4-178-namespace-template.yaml
 
-while getopts c:m:s:n: option; do 
-    case $option in 
-       c) 
+while getopts c:m:s:n: option; do
+    case $option in
+       c)
           CPU=$OPTARG
           ;;
-       m) 
-          MEMORY=$OPTARG
+       m)
+          MEMORY=$(OPTARG *1024*1024*1024)
           ;;
-       s) 
-          STORAGE=$OPTARG
+       s)
+          STORAGE=$(OPTARG *1024*1024*1024)
           ;;
-       n) 
+       n)
           NAMESPACE=$OPTARG
           ;;
        \?)

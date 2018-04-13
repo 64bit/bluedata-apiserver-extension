@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: {{{{NAMESPACE}}}} 
+  name: {{{{NAMESPACE}}}}
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{{{NAMESPACE}}}} 
+  name: {{{{NAMESPACE}}}}
   namespace: {{{{NAMESPACE}}}}
 automountServiceAccountToken: false
 ---
@@ -76,7 +76,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: controller
-  namespace: {{{{NAMESPACE}}}} 
+  namespace: {{{{NAMESPACE}}}}
   labels:
     app: controller
 spec:
@@ -92,7 +92,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: vnode
-  namespace: {{{{NAMESPACE}}}} 
+  namespace: {{{{NAMESPACE}}}}
   labels:
     app: controller
     sn: vnode
@@ -120,7 +120,7 @@ spec:
         app: controller
     spec:
       terminationGracePeriodSeconds: 10
-      serviceAccount: {{{{NAMESPACE}}}} 
+      serviceAccount: {{{{NAMESPACE}}}}
       automountServiceAccountToken: true
       containers:
       - name: controller
@@ -149,12 +149,12 @@ spec:
         - name: controller
           mountPath: /var/log/bluedata
           subPath: "logs"
-        image: bluedata/bd-epic-k8s:3.4-176
+        image: bluedata/bd-epic-k8s:3.4-178
         imagePullPolicy: Always
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/bash", "-c", "/opt/bluedata/bundles/bluedata-epic-entk8s-m7-minimal-debug-3.4-176/startscript.sh --k8s-install --storage-class-name glusterfs-storage "]
+              command: ["/bin/bash", "-c", "/opt/bluedata/bundles/bluedata-epic-entk8s-m7-minimal-debug-3.4-178/startscript.sh --k8s-install --storage-class-name glusterfs-storage "]
         ports:
         - containerPort: 80
           name: http
