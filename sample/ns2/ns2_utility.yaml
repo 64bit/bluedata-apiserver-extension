@@ -1,15 +1,15 @@
 apiVersion: bluedata.k8s.bluedata.com/v1alpha1
 kind: BlueDataCluster
 metadata:
-  namespace: tenant1
-  name: tenant1-centos7-2 
+  name: ns2-centos7-1 
+  namespace: ns2
 spec:
   debug: false
   dependent_nodegroups: []
   isolated: false
   label:
     description: description of the description
-    name: tenant1-centos7-2
+    name: ns2-centos7-1
   nodegroup:
     catalog_entry_distro_id: bluedata/centos7
     config_choice_selections: []
