@@ -33,7 +33,7 @@ while getopts c:m:s:n: option; do
     esac
 done
 
-echo "NAMESPACE: $NAMESPACE, CPU: $((CPU/(1024*1024*1024))) G, MEMORY: $((MEMORY/(1024*1024*1024))) G, STORAGE: $((STORAGE/(1024*1024*1024))) G"
+echo "NAMESPACE: $NAMESPACE, CPU: $CPU, MEMORY: $((MEMORY/(1024*1024*1024))) G, STORAGE: $((STORAGE/(1024*1024*1024))) G"
 
 FILE=epic-for-$NAMESPACE.yaml
 cp $TEMPLATE $FILE
