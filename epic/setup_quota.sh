@@ -6,11 +6,7 @@
 # Storage
 # Namespace
 
-CPU="40"
-MEMORY=$((400*1024*1024*1024))
-STORAGE=$((1000*1024*1024*1024))
-NAMESPACE="default"
-TEMPLATE=epic-3.4-178-namespace-template.yaml
+
 QUOTA_TEMPLATE=resource-quota-template.yaml
 
 while getopts c:m:s:n: option; do
@@ -35,7 +31,7 @@ done
 
 echo "NAMESPACE: $NAMESPACE, CPU: $CPU, MEMORY: $MEMORY, STORAGE: $STORAGE"
 
-FILE=epic-for-$NAMESPACE.yaml
-cp $TEMPLATE $FILE
-sed -i "s/{{{{CPU}}}}/$CPU/g ; s/{{{{MEMORY}}}}/$MEMORY/g; s/{{{{STORAGE}}}}/$STORAGE/g; s/{{{{NAMESPACE}}}}/$NAMESPACE/g" $FILE
-echo "Generated $FILE"
+RESOURCE_QUOTA_FILE=resource-quota-for-$NAMESPACE.yaml
+cp $QUOTA_TEMPLATE $RESOURCE_QUOTA_FILE
+sed -i "s/{{{{CPU}}}}/$CPU/g ; s/{{{{MEMORY}}}}/$MEMORY/g; s/{{{{STORAGE}}}}/$STORAGE/g; s/{{{{NAMESPACE}}}}/$NAMESPACE/g" $RESOURCE_QUOTA_FILE
+echo "Generated $RESOURCE_QUOTA_FILE"
