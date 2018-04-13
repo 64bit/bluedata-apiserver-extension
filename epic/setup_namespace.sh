@@ -6,9 +6,9 @@
 # Storage
 # Namespace
 
-CPU="40"
-MEMORY=$((40*1024*1024*1024))
-STORAGE=$((500*1024*1024*1024))
+CPU="44"
+MEMORY=$((439*1024*1024*1024))
+STORAGE=$((2048*1024*1024*1024))
 NAMESPACE="default"
 TEMPLATE=epic-3.4-178-namespace-template.yaml
 QUOTA_TEMPLATE=resource-quota-template.yaml
