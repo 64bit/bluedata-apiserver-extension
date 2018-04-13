@@ -8,7 +8,7 @@
 
 CPU="1"
 MEMORY="1Gi"
-STORAGE="40Gi"
+STORAGE="400Gi"
 NAMESPACE="default"
 TEMPLATE=epic-3.4-176-namespace-template.yaml
 
