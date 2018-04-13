@@ -15,10 +15,10 @@ while getopts c:m:s:n: option; do
           CPU=$OPTARG
           ;;
        m)
-          MEMORY=$(OPTARG *1024*1024*1024)
+          MEMORY=$((OPTARG *1024*1024*1024))
           ;;
        s)
-          STORAGE=$(OPTARG *1024*1024*1024)
+          STORAGE=$((OPTARG *1024*1024*1024))
           ;;
        n)
           NAMESPACE=$OPTARG
