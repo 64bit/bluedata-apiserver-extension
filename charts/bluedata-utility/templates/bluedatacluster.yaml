@@ -1,0 +1,26 @@
+apiVersion: bluedata.k8s.bluedata.com/v1alpha1
+kind: BlueDataCluster
+metadata:
+  name: {{ .Values.name  }}
+  {{- if .Values.namespace }}
+  namespace: {{ .Values.namespace}}
+  {{- end}}
+spec:
+  debug: false
+  dependent_nodegroups: []
+  isolated: false
+  label:
+    description: CentOS 7 Utility Cluster
+    name: {{ .Values.name }}
+  nodegroup:
+    catalog_entry_distro_id: bluedata/centos7
+    config_choice_selections: []
+    constraints: []
+    role_configs:
+    - flavor: /api/v1/flavor/1
+      node_count: {{ .Values.controller.node_count }}
+      role_id: controller
+    - flavor: /api/v1/flavor/1
+      node_count: {{ .Values.worker.node_count }}
+      role_id: worker
+  two_phase_delete: false

@@ -1,0 +1,12 @@
+# Default values for bluedata-utility.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+name: utility
+namespace:
+
+controller:
+  node_count: 1
+
+worker:
+  node_count: 0
