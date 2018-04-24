@@ -3,12 +3,6 @@ kind: Namespace
 metadata:
   name: bluedata-system
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  namespace: bluedata-system
-  name: default
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
