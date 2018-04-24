@@ -35,3 +35,4 @@ RESOURCE_QUOTA_FILE=resource-quota-for-$NAMESPACE.yaml
 cp $QUOTA_TEMPLATE $RESOURCE_QUOTA_FILE
 sed -i "s/{{{{CPU}}}}/$CPU/g ; s/{{{{MEMORY}}}}/$MEMORY/g; s/{{{{STORAGE}}}}/$STORAGE/g; s/{{{{NAMESPACE}}}}/$NAMESPACE/g" $RESOURCE_QUOTA_FILE
 echo "Generated $RESOURCE_QUOTA_FILE"
+kubectl delete resourcequota quota -n $NAMESPACE
