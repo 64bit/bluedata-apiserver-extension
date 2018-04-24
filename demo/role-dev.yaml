@@ -4,6 +4,6 @@ metadata:
   name: dev-role
   namespace: dev
 rules:
-- apiGroups: ["", "extensions", "apps"]
+- apiGroups: ["bluedata.k8s.bluedata.com"]
   resources: ["*"]
   verbs: ["*"]
