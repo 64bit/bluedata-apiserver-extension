@@ -7,4 +7,4 @@ spec:
   hard:
     limits.cpu: "20"
     limits.memory : "21474836480"
-    glusterfs-storage.storageclass.storage.k8s.io/requests.storage: "536870912000"
+    glusterfs-storage.storageclass.storage.k8s.io/requests.storage: "322122547200"
